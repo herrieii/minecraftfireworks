@@ -19,8 +19,7 @@
       }
       input[type="text"],
       input[type="number"],
-      select,
-      textarea {
+      select {
         font-size: inherit;
         color: inherit;
         display: block;
@@ -29,10 +28,6 @@
       }
       input[type="number"] {
         width: 6rem;
-      }
-      textarea {
-        font-family: monospace, monospace;
-        resize: vertical;
       }
 
       form > div,
@@ -68,9 +63,8 @@
         opacity: 0;
         pointer-events: none;
       }
-      ol#commands > li > textarea {
-        width: 100%;
-        box-sizing: border-box;
+      ol#commands > li > pre {
+        white-space: pre-wrap;
       }
       ol#commands > li::before {
         content: counter(command) '.';
@@ -85,6 +79,10 @@
         text-align: right;
         flex-shrink: 0;
         width: 2rem;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
       ol#commands > li.long > p.length {
         color: red;
@@ -101,14 +99,14 @@
         }
       }
       @media (min-width: 60rem) {
-        main > div.settings {
+        section.settings {
           float: left;
           position: sticky;
           position: -webkit-sticky;
           top: 0;
           width: 28rem;
         }
-        main > div.output {
+        section.output {
           margin-left: 28rem;
           overflow: hidden;
         }
@@ -118,98 +116,96 @@
   <body>
     <h1>Minecraft random fireworks</h1>
     <p>The purpose of this tool is to simplify the creation of random fireworks in Minecraft by generating console commands.</p>
-    <p>A console command can be copy/pasted and executed in-game, e.g. by entering it in the chat or with the use of a command block.</p>
-    <p>NOTE: In Minecraft chat messages are limited to 256 characters.</p>
-
-    <main>
-      <div class="settings">
-        <h2>Settings</h2>
-        <form id="settings">
-          <div><label>Player target<input type="text" id="target" value="@p"></label></div>
-          <fieldset>
-            <legend>Flight duration</legend>
-            <div class="group">
-              <div><label>Min <input type="number" id="flightmin" value="2" min="1" max="3"></label></div>
-              <div><label>Max <input type="number" id="flightmax" value="3" min="1" max="3"></label></div>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Firework explosions</legend>
-            <div class="group">
-              <div><label>Min <input type="number" id="explosionsmin" value="1" min="1"></label></div>
-              <div><label>Max <input type="number" id="explosionsmax" value="3" min="1"></label></div>
-            </div>
-            <fieldset>
-              <legend>Type options</legend>
-              <ul>
-                <li><label><input type="checkbox" name="type" value="0" checked> Small ball</label></li>
-                <li><label><input type="checkbox" name="type" value="1" checked> Large ball</label></li>
-                <li><label><input type="checkbox" name="type" value="2" checked> Star shape</label></li>
-                <li><label><input type="checkbox" name="type" value="3" checked> Creeper face</label></li>
-                <li><label><input type="checkbox" name="type" value="4" checked> Burst</label></li>
-              </ul>
-            </fieldset>
-            <fieldset>
-              <legend>Colours</legend>
-              <div class="group">
-                <div><label>Min <input type="number" id="colorsmin" value="1" min="1" max="16"></label></div>
-                <div><label>Max <input type="number" id="colorsmax" value="3" min="1" max="16"></label></div>
-              </div>
-              <fieldset>
-                <legend>Colour options</legend>
-                <ul>
-                  <li><label><input type="checkbox" name="colors" value="1973019">Black</label></li>
-                  <li><label><input type="checkbox" name="colors" value="2437522" checked>Blue</label></li>
-                  <li><label><input type="checkbox" name="colors" value="5320730">Brown</label></li>
-                  <li><label><input type="checkbox" name="colors" value="2651799" checked>Cyan</label></li>
-                  <li><label><input type="checkbox" name="colors" value="4408131">Gray</label></li>
-                  <li><label><input type="checkbox" name="colors" value="3887386" checked>Green</label></li>
-                  <li><label><input type="checkbox" name="colors" value="6719955" checked>Light blue</label></li>
-                  <li><label><input type="checkbox" name="colors" value="11250603">Light gray</label></li>
-                  <li><label><input type="checkbox" name="colors" value="4312372" checked>Lime</label></li>
-                  <li><label><input type="checkbox" name="colors" value="12801229" checked>Magenta</label></li>
-                  <li><label><input type="checkbox" name="colors" value="15435844" checked>Orange</label></li>
-                  <li><label><input type="checkbox" name="colors" value="14188952" checked>Pink</label></li>
-                  <li><label><input type="checkbox" name="colors" value="8073150" checked>Purple</label></li>
-                  <li><label><input type="checkbox" name="colors" value="11743532" checked>Red</label></li>
-                  <li><label><input type="checkbox" name="colors" value="15790320" checked>White</label></li>
-                  <li><label><input type="checkbox" name="colors" value="14602026" checked>Yellow</label></li>
-                </ul>
-              </fieldset>
-            </fieldset>
-            <fieldset>
-              <legend>Flicker</legend>
-              <ul>
-                <li><label><input type="radio" name="flicker" value="1">On</label></li>
-                <li><label><input type="radio" name="flicker" value="0">Off</label></li>
-                <li><label><input type="radio" name="flicker" value="" checked>Random</label></li>
-              </ul>
-            </fieldset>
-            <fieldset>
-              <legend>Trail</legend>
-              <ul>
-                <li><label><input type="radio" name="trail" value="1">On</label></li>
-                <li><label><input type="radio" name="trail" value="0">Off</label></li>
-                <li><label><input type="radio" name="trail" value="" checked>Random</label></li>
-              </ul>
-            </fieldset>
-          </fieldset>
-          <div><label>Item amount <input type="number" id="amount" value="64" min="1" max="64"></label></div>
-          <div>
-            <input type="reset">
+    <p>A console command can be executed in the server's console or in-game, e.g. by entering it in the chat window or with the use of a command block.</p>
+    <p>Note: in-game chat input is limited to 256 characters and commands need to be prefixed with a "/".</p>
+    <section class="settings">
+      <h2>Settings</h2>
+      <form id="settings">
+        <div><label><input type="checkbox" id="chat">Chat (prefix with "/")</label></div>
+        <div><label>Player target <input type="text" id="target" value="@p" required></label></div>
+        <fieldset>
+          <legend>Flight duration</legend>
+          <div class="group">
+            <div><label>Min <input type="number" id="flightmin" value="2" min="1" max="3" required></label></div>
+            <div><label>Max <input type="number" id="flightmax" value="3" min="1" max="3" required></label></div>
           </div>
-        </form>
-      </div>
-      <div class="output">
-        <h2>Console command</h2>
-        <ol id="commands">
-          <li><textarea></textarea>
-            <p class="length"></p>
-          </li>
-        </ol>
-        <button id="generate">Generate [TAB]</button>
-      </div>
-    </main>
+        </fieldset>
+        <fieldset>
+          <legend>Fireworks</legend>
+          <div class="group">
+            <div><label>Min <input type="number" id="explosionsmin" value="1" min="1" required></label></div>
+            <div><label>Max <input type="number" id="explosionsmax" value="3" min="1" required></label></div>
+          </div>
+          <fieldset>
+            <legend>Firework options</legend>
+            <ul>
+              <li><label><input type="checkbox" name="type" value="0" checked> Small ball</label></li>
+              <li><label><input type="checkbox" name="type" value="1" checked> Large ball</label></li>
+              <li><label><input type="checkbox" name="type" value="2" checked> Star shape</label></li>
+              <li><label><input type="checkbox" name="type" value="3" checked> Creeper face</label></li>
+              <li><label><input type="checkbox" name="type" value="4" checked> Burst</label></li>
+            </ul>
+          </fieldset>
+          <fieldset>
+            <legend>Colours</legend>
+            <div class="group">
+              <div><label>Min <input type="number" id="colorsmin" value="1" min="1" max="16" required></label></div>
+              <div><label>Max <input type="number" id="colorsmax" value="3" min="1" max="16" required></label></div>
+            </div>
+            <fieldset>
+              <legend>Colour options</legend>
+              <ul>
+                <li><label><input type="checkbox" name="colors" value="1973019">Black</label></li>
+                <li><label><input type="checkbox" name="colors" value="2437522" checked>Blue</label></li>
+                <li><label><input type="checkbox" name="colors" value="5320730">Brown</label></li>
+                <li><label><input type="checkbox" name="colors" value="2651799" checked>Cyan</label></li>
+                <li><label><input type="checkbox" name="colors" value="4408131">Gray</label></li>
+                <li><label><input type="checkbox" name="colors" value="3887386">Green</label></li>
+                <li><label><input type="checkbox" name="colors" value="6719955" checked>Light blue</label></li>
+                <li><label><input type="checkbox" name="colors" value="11250603">Light gray</label></li>
+                <li><label><input type="checkbox" name="colors" value="4312372" checked>Lime</label></li>
+                <li><label><input type="checkbox" name="colors" value="12801229" checked>Magenta</label></li>
+                <li><label><input type="checkbox" name="colors" value="15435844" checked>Orange</label></li>
+                <li><label><input type="checkbox" name="colors" value="14188952" checked>Pink</label></li>
+                <li><label><input type="checkbox" name="colors" value="8073150" checked>Purple</label></li>
+                <li><label><input type="checkbox" name="colors" value="11743532" checked>Red</label></li>
+                <li><label><input type="checkbox" name="colors" value="15790320" checked>White</label></li>
+                <li><label><input type="checkbox" name="colors" value="14602026" checked>Yellow</label></li>
+              </ul>
+            </fieldset>
+          </fieldset>
+          <fieldset>
+            <legend>Flicker</legend>
+            <ul>
+              <li><label><input type="radio" name="flicker" value="1">On</label></li>
+              <li><label><input type="radio" name="flicker" value="0">Off</label></li>
+              <li><label><input type="radio" name="flicker" value="" checked>Random</label></li>
+            </ul>
+          </fieldset>
+          <fieldset>
+            <legend>Trail</legend>
+            <ul>
+              <li><label><input type="radio" name="trail" value="1">On</label></li>
+              <li><label><input type="radio" name="trail" value="0">Off</label></li>
+              <li><label><input type="radio" name="trail" value="" checked>Random</label></li>
+            </ul>
+          </fieldset>
+        </fieldset>
+        <div><label>Amount <input type="number" id="amount" value="64" min="1" max="64" required></label></div>
+        <div>
+          <input type="reset">
+        </div>
+      </form>
+    </section>
+    <section class="output">
+      <h2>Commands</h2>
+      <ol id="commands">
+        <li><pre contenteditable></pre>
+          <p class="length"></p>
+        </li>
+      </ol>
+      <button id="generate">Generate</button>
+    </section>
 
     <script>
       (function () {
@@ -282,34 +278,38 @@
         }
 
         function generateCommand(i) {
+          const chat = settingsEl.elements.chat.checked ? '/' : '';
           const target = settingsEl.elements.target.value;
           const min = settingsEl.elements.flightmin.valueAsNumber;
           const max = settingsEl.elements.flightmax.valueAsNumber;
           const flight = Math.floor(Math.random() * (max - min + 1)) + min;
           const explosions = generateExplosions();
           const amount = settingsEl.elements.amount.valueAsNumber;
-          const value = `/give ${target} firework_rocket{Flight:${flight},Fireworks:{Explosions:[${explosions}]}} ${amount}`;
+          const value = `${chat}give ${target} firework_rocket{Flight:${flight},Fireworks:{Explosions:[${explosions}]}} ${amount}`;
 
           return value.length < 256 || (i > 100) ? value : generateCommand((i || 0) + 1);
         }
 
         generateEl.addEventListener('click', function (event) {
+          if (!settingsEl.reportValidity()) {
+            return;
+          }
           const value = generateCommand();
           const itemEl = commandsEl.lastElementChild;
           const commandEl = commandsEl.insertBefore(itemEl.cloneNode(true), itemEl);
 
-          commandEl.firstElementChild.value = value;
+          commandEl.firstElementChild.textContent = value;
           commandEl.lastElementChild.textContent = value.length;
           if (event.target.offsetTop + event.target.offsetHeight > window.innerHeight) {
             window.scrollTo(0, document.body.offsetHeight);
           }
           commandEl.classList.toggle('long', value.length > maxLength);
           itemEl.previousElementSibling.firstElementChild.focus();
-          itemEl.previousElementSibling.firstElementChild.select();
+          // itemEl.previousElementSibling.firstElementChild.select();
         });
 
         commandsEl.addEventListener('input', function (event) {
-          const length = event.target.value.length;
+          const length = event.target.textContent.length;
 
           event.target.nextElementSibling.textContent = length;
           event.target.parentElement.classList.toggle('long', length > maxLength);
